@@ -23,7 +23,7 @@
       --accent: #64ffda;
       --accent-hover: rgba(100, 255, 218, 0.1);
       --white: #e6f1ff;
-      --shadow: rgba(0, 0, 0, 0.2);
+      --shadow: rgba(0, 0, 0, 0.3); /* Slightly darker shadow */
     }
 
     /* --- General Styling --- */
@@ -88,15 +88,17 @@
       box-shadow: 0 0 0 2px var(--accent-hover);
     }
 
-    /* --- Banner --- */
+    /* --- Banner (with Parallax) --- */
     .banner {
       height: 60vh;
       background-size: cover;
-      background-position: center top;
+      background-position: center 0; /* Initial position for parallax */
+      background-attachment: scroll; /* Important for JS parallax */
       display: flex;
       align-items: flex-end;
       padding: 30px;
       position: relative;
+      overflow: hidden; /* Hide parallax overflow */
     }
     .banner::after {
       content: '';
@@ -104,16 +106,17 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 50%;
-      background: linear-gradient(to top, var(--bg-dark-navy), transparent);
+      height: 60%; /* Extend gradient a bit */
+      background: linear-gradient(to top, var(--bg-dark-navy) 0%, transparent 100%);
     }
 
     .banner h1 {
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.6); /* Slightly darker for better readability */
       padding: 10px 20px;
       border-radius: 5px;
       font-size: 2.5rem;
       z-index: 2;
+      box-shadow: 0 4px 10px var(--shadow); /* Added shadow for depth */
     }
 
     /* --- Content Rows --- */
@@ -135,10 +138,20 @@
       overflow-x: auto;
       gap: 15px;
       padding: 10px 5px 20px 5px; /* Add padding for shadow */
-      scrollbar-width: none; /* Firefox */
+      scrollbar-width: thin; /* Firefox */
+      scrollbar-color: var(--accent) var(--bg-light-navy); /* Firefox scrollbar color */
     }
     .list::-webkit-scrollbar { 
-      display: none; /* Chrome, Safari */ 
+      height: 8px; /* Chrome, Safari */ 
+    }
+    .list::-webkit-scrollbar-track {
+      background: var(--bg-light-navy);
+      border-radius: 10px;
+    }
+    .list::-webkit-scrollbar-thumb {
+      background-color: var(--accent);
+      border-radius: 10px;
+      border: 2px solid var(--bg-light-navy);
     }
 
     .card {
@@ -150,10 +163,11 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       cursor: pointer;
       overflow: hidden;
+      border: 1px solid rgba(100, 255, 218, 0.1); /* Subtle border */
     }
     .card:hover {
-      transform: translateY(-5px) scale(1.03);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+      transform: translateY(-8px) scale(1.03); /* More pronounced hover */
+      box-shadow: 0 10px 20px rgba(0,0,0,0.5); /* Darker shadow on hover */
       z-index: 5;
     }
     .card img {
@@ -161,7 +175,7 @@
       height: 255px; /* Fixed height for uniformity */
       object-fit: cover;
       display: block;
-      border-bottom: 2px solid var(--accent);
+      border-bottom: 3px solid var(--accent); /* Thicker accent line */
     }
     .card-title {
       padding: 12px 10px;
@@ -180,38 +194,45 @@
       top: 0; left: 0;
       width: 100%; height: 100%;
       background: rgba(10, 25, 47, 0.85);
-      backdrop-filter: blur(5px);
+      backdrop-filter: blur(8px); /* More blur for frosted effect */
       display: none;
       justify-content: center;
       align-items: center;
       z-index: 200;
       padding: 20px;
+      transition: opacity 0.3s ease; /* Fade in/out */
     }
 
     .modal-content {
       background: var(--bg-light-navy);
-      padding: 25px;
+      padding: 30px; /* More padding */
       width: 100%;
-      max-width: 800px;
+      max-width: 850px; /* Slightly wider modal */
       max-height: 90vh;
       overflow-y: auto;
       position: relative;
-      border-radius: 10px;
-      box-shadow: 0 10px 30px var(--shadow);
+      border-radius: 12px; /* More rounded corners */
+      box-shadow: 0 15px 40px rgba(0,0,0,0.6); /* Deeper shadow */
       border: 1px solid var(--text-dark);
+      animation: fadeInScale 0.3s ease-out; /* Animation for modal open */
+    }
+    @keyframes fadeInScale {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
     }
 
     .modal-body {
       display: flex;
       align-items: flex-start;
-      gap: 25px;
-      margin-bottom: 20px;
+      gap: 30px; /* More space */
+      margin-bottom: 25px;
     }
 
     .modal-body img {
       width: 35%;
-      max-width: 250px;
-      border-radius: 8px;
+      max-width: 280px; /* Slightly larger image */
+      border-radius: 10px;
+      box-shadow: 0 5px 15px var(--shadow);
     }
 
     .modal-text {
@@ -220,51 +241,76 @@
     }
     .modal-text h2 {
       color: var(--white);
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      font-size: 2rem; /* Larger title */
     }
     .modal-text p {
       color: var(--text-dark);
-      line-height: 1.6;
-      font-size: 15px;
+      line-height: 1.7;
+      font-size: 16px;
     }
 
     .stars { 
       color: gold; 
-      margin-bottom: 15px;
-      font-size: 1.2rem;
+      margin-bottom: 18px;
+      font-size: 1.4rem; /* Larger stars */
     }
     
     .close {
       position: absolute;
       top: 15px; right: 25px;
       cursor: pointer;
-      font-size: 30px;
+      font-size: 32px; /* Larger close button */
       color: var(--text-dark);
-      transition: color 0.3s ease;
+      transition: color 0.3s ease, transform 0.2s ease;
     }
     .close:hover {
       color: var(--accent);
+      transform: rotate(90deg); /* Spin on hover */
     }
 
     .server-selector {
-      margin: 20px 0;
+      margin: 25px 0; /* More spacing */
       text-align: left;
+      display: flex; /* Align label and select */
+      align-items: center;
+      gap: 10px;
     }
     .server-selector label {
-      margin-right: 10px;
       font-weight: 600;
+      color: var(--white);
+      font-size: 1.1rem;
     }
     .server-selector select {
-      padding: 8px;
-      border-radius: 5px;
+      padding: 10px 15px; /* More padding */
+      border-radius: 8px; /* More rounded */
       border: 1px solid var(--text-dark);
       background: var(--bg-dark-navy);
-      color: var(--text-light);
+      color: var(--accent); /* Accent color for selection */
+      font-size: 1rem;
+      cursor: pointer;
+      appearance: none; /* Remove default dropdown arrow */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2364ffda'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E"); /* Custom arrow */
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 20px;
+      transition: all 0.3s ease;
+    }
+    .server-selector select:hover {
+      border-color: var(--accent);
+    }
+    .server-selector select:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px var(--accent-hover);
     }
 
+
     #modal-video {
-      border: 1px solid var(--text-dark);
-      border-radius: 8px;
+      border: 2px solid var(--accent); /* Accent border */
+      border-radius: 10px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.5); /* Deeper shadow for video */
+      padding: 5px; /* Inner padding for a 'frame' effect */
+      background: var(--bg-dark-navy); /* Match background */
     }
 
     /* --- Search Modal --- */
@@ -272,12 +318,14 @@
       position: fixed;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(10, 25, 47, 0.9);
-      backdrop-filter: blur(5px);
+      background: rgba(10, 25, 47, 0.95); /* Slightly darker overlay */
+      backdrop-filter: blur(10px); /* More blur */
       display: none;
       flex-direction: column;
+      align-items: center; /* Center content */
       z-index: 150;
       padding: 20px;
+      transition: opacity 0.3s ease;
     }
 
     .search-modal .close {
@@ -287,30 +335,47 @@
     #search-input {
       width: 100%;
       max-width: 500px;
-      padding: 15px 20px;
-      border-radius: 30px;
+      padding: 18px 25px; /* More padding */
+      border-radius: 35px; /* More rounded */
       border: 2px solid var(--text-dark);
       background: var(--bg-light-navy);
       color: var(--text-light);
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       margin-top: 60px; /* Space for close button */
       margin-bottom: 30px;
+      transition: all 0.3s ease;
     }
     #search-input:focus {
       outline: none;
       border-color: var(--accent);
+      box-shadow: 0 0 0 4px var(--accent-hover);
     }
 
     .results {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); /* Slightly larger cards */
       gap: 20px;
       width: 100%;
       max-width: 1000px;
       max-height: 75vh;
       overflow-y: auto;
       padding: 10px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent) var(--bg-light-navy);
     }
+    .results::-webkit-scrollbar { 
+      width: 8px; 
+    }
+    .results::-webkit-scrollbar-track {
+      background: var(--bg-light-navy);
+      border-radius: 10px;
+    }
+    .results::-webkit-scrollbar-thumb {
+      background-color: var(--accent);
+      border-radius: 10px;
+      border: 2px solid var(--bg-light-navy);
+    }
+
     /* Re-use card styles for search results */
     .results .card {
       width: auto; /* Let grid control width */
@@ -397,9 +462,11 @@
       .card img { height: 210px; }
       .card-title { font-size: 13px; }
 
+      .modal-content { padding: 20px; }
       .modal-body {
         flex-direction: column;
         align-items: center;
+        gap: 20px;
       }
       .modal-body img {
         width: 60%;
@@ -408,21 +475,33 @@
       .modal-text {
         text-align: center;
       }
+      .modal-text h2 { font-size: 1.8rem; }
+      .modal-text p { font-size: 15px; }
+      .stars { font-size: 1.2rem; }
+      .server-selector { 
+        text-align: center; 
+        flex-direction: column;
+        gap: 8px;
+      }
 
       .results {
         grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
         gap: 15px;
       }
+      .search-modal #search-input {
+        font-size: 1.1rem;
+        padding: 15px 20px;
+      }
     }
 
     @media (max-width: 480px) {
       .banner { height: 35vh; }
-      .banner h1 { font-size: 1.3rem; }
+      .banner h1 { font-size: 1.3rem; padding: 8px 15px; }
       
       .row h2 { font-size: 1.2rem; }
 
-      .card { width: 120px; }
-      .card img { height: 180px; }
+      .card { width: 110px; } /* Smaller cards for tiny screens */
+      .card img { height: 165px; } /* Maintain aspect ratio */
       
       .modal-content {
         width: 100%;
@@ -430,8 +509,9 @@
         padding: 15px;
       }
       .modal-body img { width: 70%; }
+      .modal-text h2 { font-size: 1.5rem; }
       .modal-text p { font-size: 14px; }
-      .server-selector { text-align: center; }
+      .close { font-size: 28px; }
 
       #search-input { 
         margin-top: 70px; 
@@ -439,12 +519,12 @@
         padding: 12px 15px;
       }
       .results {
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
         gap: 10px;
       }
       .results .card-title { font-size: 12px; padding: 8px 5px; }
 
-      .footer-links { gap: 15px; }
+      .footer-links { gap: 10px; font-size: 14px; }
     }
 
   </style>
@@ -532,6 +612,7 @@
     const IMG_URL = 'https://image.tmdb.org/t/p/w500'; // Use w500 for better load times
     const BANNER_URL = 'https://image.tmdb.org/t/p/original';
     let currentItem;
+    let bannerElement; // Declare globally for parallax
 
     /**
      * Fetches trending items of a specific type.
@@ -563,8 +644,20 @@
      */
     function displayBanner(item) {
       if (!item || !item.backdrop_path) return;
-      document.getElementById('banner').style.backgroundImage = `url(${BANNER_URL}${item.backdrop_path})`;
+      bannerElement = document.getElementById('banner'); // Assign bannerElement
+      bannerElement.style.backgroundImage = `url(${BANNER_URL}${item.backdrop_path})`;
       document.getElementById('banner-title').textContent = item.title || item.name;
+    }
+
+    /**
+     * Handles the parallax scroll effect for the banner.
+     */
+    function handleParallaxScroll() {
+      if (bannerElement) {
+        const scrollPosition = window.pageYOffset;
+        // Adjust the multiplier for stronger/weaker parallax
+        bannerElement.style.backgroundPositionY = `${scrollPosition * 0.5}px`; 
+      }
     }
 
     /**
@@ -713,12 +806,16 @@
         const anime = await fetchTrendingAnime();
 
         // Find a suitable banner item (one with a backdrop)
-        const bannerItem = movies.find(m => m.backdrop_path) || tvShows.find(t => t.backdrop_path) || movies[0];
-        displayBanner(bannerItem);
+        const bannerCandidate = movies.find(m => m.backdrop_path) || tvShows.find(t => t.backdrop_path) || anime.find(a => a.backdrop_path) || movies[0];
+        displayBanner(bannerCandidate);
         
         displayList(movies, 'movies-list');
         displayList(tvShows, 'tvshows-list');
         displayList(anime, 'anime-list');
+
+        // Attach parallax event listener
+        window.addEventListener('scroll', handleParallaxScroll);
+
       } catch (error) {
         console.error("Failed to initialize page:", error);
         // You could display an error message to the user here
