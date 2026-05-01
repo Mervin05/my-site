@@ -68,7 +68,7 @@ const API_KEY = 'ce517eeedff879623b5c56a600dac81e';
         embedURL = `https://zxcstream.xyz/${type}/${currentItem.id}`;
       }
 
-        
+    }
       
 
       document.getElementById('modal-video').src = embedURL;
