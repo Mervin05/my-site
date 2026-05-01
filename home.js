@@ -59,7 +59,7 @@ const API_KEY = 'ce517eeedff879623b5c56a600dac81e';
       let embedURL = "";
 
       if (server === "vidsrc.cc") {
-        embedURL = `https://vidsrc.cc/v2/embed/${type}/${currentItem.id}`;
+        embedURL = `https://zxcstream.xyz/${type}/${currentItem.id}`;
       } else if (server === "vidsrc.me") {
         embedURL = `https://vidsrc.net/embed/${type}/?tmdb=${currentItem.id}`;
       } else if (server === "player.videasy.net") {
