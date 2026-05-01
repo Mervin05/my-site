@@ -64,7 +64,12 @@ const API_KEY = 'ce517eeedff879623b5c56a600dac81e';
         embedURL = `https://vidsrc.net/embed/${type}/?tmdb=${currentItem.id}`;
       } else if (server === "player.videasy.net") {
         embedURL = `https://player.videasy.net/${type}/${currentItem.id}`;
+      } else if (server === "zxcstream.xyz") {
+        embedURL = `https://zxcstream.xyz/${type}/${currentItem.id}`;
       }
+
+        
+      
 
       document.getElementById('modal-video').src = embedURL;
     }
